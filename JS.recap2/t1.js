@@ -1,0 +1,15 @@
+"use strict";
+const fruits = ["apple", "banana", "Orange", "grape", "kiwi"];
+console.log("Fruits:", fruits);
+console.log("Length of fruits:", fruits.length);
+console.log("Element at Index 2: ", fruits[2]);
+console.log("Last Element of Fruits: ", fruits[fruits.length - 1]);
+const vegetables = [];
+const v1 = prompt("Enter a vegetable: ");
+vegetables.push(v1);
+const v2 = prompt("Enter a vegetable: ");
+vegetables.push(v2);
+const v3 = prompt("Enter a vegetable: ");
+vegetables.push(v3);
+console.log("Vegetables", vegetables);
+console.log("Length of Vegetables:", vegetables.length);
