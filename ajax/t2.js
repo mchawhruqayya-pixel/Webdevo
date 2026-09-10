@@ -1,71 +1,66 @@
-async function testFetch() {
+async function getUser() {
+  const requestURL = 'https://reqres.in/api/users/1';
+
   try {
-    const response = await fetch(
-      'https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants',
-    );
+    const response = await fetch(requestURL, {
+      headers: {
+        'x-api-key': 'reqres-free-v1',
+      },
+    });
+
     const data = await response.json();
     console.log(data);
   } catch (error) {
-    console.error('Virhe:', error);
+    console.error('Something went wrong:', error);
   }
 }
-function renderRestaurants(restaurants) {
-  restaurantListElement.innerHTML = '';
+getUser();
 
-  restaurants.forEach((restaurant) => {
-    const card = document.createElement('div');
-    card.classList.add('restaurant-card');
+async function createUser() {
+  const requestURL = 'https://reqres.in/api/users';
 
-    const name = document.createElement('h3');
-    name.textContent = restaurant.name;
-    card.appendChild(name);
-
-    const address = document.createElement('p');
-    address.textContent = `${restaurant.address}, ${restaurant.city}`;
-    card.appendChild(address);
-
-    card.addEventListener('click', () => {
-      openRestaurantModal(restaurant);
-    });
-
-    restaurantListElement.appendChild(card);
-  });
-}
-async function openRestaurantModal(restaurant) {
-  modalContent.innerHTML = `
-    <h2>${restaurant.name}</h2>
-    <p>${restaurant.address}, ${restaurant.city}</p>
-    <p>Ladataan menua</p>
-  `;
-  modal.showModal();
+  const newUser = {
+    name: 'Rukaya',
+    job: 'ICT student',
+  };
 
   try {
-    const response = await fetch(
-      `${API_BASE}/restaurants/daily/${restaurant._id}`,
-    );
+    const response = await fetch(requestURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': 'reqres-free-v1',
+      },
+      body: JSON.stringify(newUser),
+    });
 
-    if (!response.ok) {
-      throw new Error(`Menun haku epäonnistui: ${response.status}`);
-    }
-
-    const menuData = await response.json();
-    renderModalContent(restaurant, menuData);
+    const data = await response.json();
+    console.log(data);
   } catch (error) {
-    console.error('Menun haku epäonnistui:', error);
-    modalContent.innerHTML = `
-      <h2>${restaurant.name}</h2>
-      <p>${restaurant.address}, ${restaurant.city}</p>
-      <p>Päivän menua ei voitu ladata.</p>
-      <button id="close-modal-btn">Sulje</button>
-    `;
-    document
-      .getElementById('close-modal-btn')
-      .addEventListener('click', () => modal.close());
+    console.error('Something went wrong:', error);
   }
 }
-fetch(
-  'https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants/daily/6470d391cb12107db6fe24f7/fi',
-)
-  .then((res) => res.json())
-  .then((data) => console.log(data));
-testFetch();
+createUser();
+
+async function getNonExistentUser() {
+  const requestURL = 'https://reqres.in/api/unknown/23';
+
+  try {
+    const response = await fetch(requestURL, {
+      headers: {
+        'x-api-key': 'reqres-free-v1',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching user:', error.message);
+  }
+}
+
+getNonExistentUser();
