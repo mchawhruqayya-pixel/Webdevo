@@ -13,7 +13,14 @@ const getCat = (req, res) => {
 };
 
 const postCat = (req, res) => {
-  const newCat = req.body;
+  console.log('body', req.body);
+  console.log('file', req.file);
+
+  const newCat = {
+    ...req.body,
+    filename: req.file.filename,
+  };
+
   addCat(newCat);
   res.status(201).json(newCat);
 };

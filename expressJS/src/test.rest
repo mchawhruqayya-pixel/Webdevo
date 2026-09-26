@@ -27,3 +27,29 @@ Content-Type: application/json
 
 ### Delete a user (hardcoded response)
 DELETE http://localhost:3000/api/v1/users/3609
+### Upload a new cat with image
+POST http://127.0.0.1:3000/api/v1/cats HTTP/1.1
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="cat_name"
+
+Misu
+--MyBoundary
+Content-Disposition: form-data; name="weight"
+
+6
+--MyBoundary
+Content-Disposition: form-data; name="owner"
+
+3602
+--MyBoundary
+Content-Disposition: form-data; name="birthdate"
+
+2023-10-08
+--MyBoundary
+Content-Disposition: form-data; name="cat"; filename="dog.jpg"
+Content-Type: image/jpeg
+
+< ./test-files/cat.jpeg
+--MyBoundary--
